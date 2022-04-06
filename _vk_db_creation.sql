@@ -10,7 +10,6 @@ CREATE TABLE users (
     email VARCHAR(120) UNIQUE,
  	password_hash VARCHAR(100), 	
 	phone BIGINT UNSIGNED UNIQUE,
-	
     INDEX users_firstname_lastname_idx(firstname, lastname)
 ) COMMENT 'юзеры';
 
@@ -329,17 +328,68 @@ INSERT INTO `wall` (`user_id`, `media_id`) VALUES ('8', '8');
 INSERT INTO `wall` (`user_id`, `media_id`) VALUES ('9', '9');
 INSERT INTO `wall` (`user_id`, `media_id`) VALUES ('10', '10');
 
--- ЗАДАНИЕ 2 Написать скрипт, возвращающий список имен (только firstname) пользователей без повторений в алфавитном порядке
-SELECT firstname FROM users ORDER BY firstname;
+-- ЗАДАНИЕ 1 Пусть в таблице users поля created_at и updated_at оказались незаполненными. Заполните их текущими датой и временем.
+ALTER TABLE users
+ADD COLUMN created_at VARCHAR(50) AFTER phone,
+ADD COLUMN updated_at VARCHAR(50) AFTER created_at;
 
--- ЗАДАНИЕ 3 Написать скрипт, отмечающий несовершеннолетних пользователей как неактивных (поле is_active = false). 
--- Предварительно добавить такое поле в таблицу profiles со значением по умолчанию = true (или 1)
-ALTER TABLE profiles 
-ADD COLUMN is_active BOOLEAN DEFAULT true;
+UPDATE users SET created_at = now();
+UPDATE users SET updated_at = now();
 
-UPDATE profiles SET is_active = 0 WHERE (birthday + INTERVAL 18 YEAR) >= now();
+-- ЗАДАНИЕ 2 Таблица users была неудачно спроектирована. Записи created_at и updated_at были заданы типом VARCHAR и в них долгое 
+-- время помещались значения в формате "20.10.2017 8:10". Необходимо преобразовать поля к типу DATETIME, сохранив введеные ранее значения.
+ALTER TABLE users MODIFY created_at DATETIME;
+ALTER TABLE users MODIFY updated_at DATETIME;
 
-SELECT user_id FROM profiles WHERE is_active = 1;
+-- ЗАДАНИЕ 3 В таблице складских запасов storehouses_products в поле value могут встречаться самые разные цифры: 0, если товар закончился и выше нуля, 
+-- если на складе имеются запасы. Необходимо отсортировать записи таким образом, чтобы они выводились в порядке увеличения значения value. Однако, 
+-- нулевые запасы должны выводиться в конце, после всех записей.
+DROP TABLE IF EXISTS storehouses_products;
+CREATE TABLE storehouses_products (
+	id SERIAL, 
+    name VARCHAR(50),
+	value BIGINT
+) COMMENT 'Складские запасы';
 
--- ЗАДАНИЕ 4 Написать скрипт, удаляющий сообщения «из будущего» (дата больше сегодняшней)
-DELETE FROM messages WHERE created_at > now();
+INSERT INTO `storehouses_products` (`id`, `name`, `value`) VALUES ('1', 'bread', '0');
+INSERT INTO `storehouses_products` (`id`, `name`, `value`) VALUES ('2', 'coke', '0');
+INSERT INTO `storehouses_products` (`id`, `name`, `value`) VALUES ('3', 'meat', '1');
+INSERT INTO `storehouses_products` (`id`, `name`, `value`) VALUES ('4', 'ice cream', '3');
+INSERT INTO `storehouses_products` (`id`, `name`, `value`) VALUES ('5', 'milk', '6');
+
+SELECT value FROM storehouses_products ORDER BY value = 0, value;
+
+-- ЗАДАНИЕ 4 (по желанию) Из таблицы users необходимо извлечь пользователей, родившихся в августе и мае. 
+-- Месяцы заданы в виде списка английских названий ('may', 'august')
+ALTER TABLE users ADD COLUMN birthday VARCHAR(50) AFTER updated_at;
+
+UPDATE users SET birthday = 'may' WHERE id = 1;
+UPDATE users SET birthday = 'february' WHERE id = 2;
+UPDATE users SET birthday = 'august' WHERE id = 3;
+UPDATE users SET birthday = 'june' WHERE id = 4;
+UPDATE users SET birthday = 'may' WHERE id = 5;
+UPDATE users SET birthday = 'may' WHERE id = 6;
+UPDATE users SET birthday = 'may' WHERE id = 7;
+UPDATE users SET birthday = 'july' WHERE id = 8;
+UPDATE users SET birthday = 'april' WHERE id = 9;
+UPDATE users SET birthday = 'may' WHERE id = 10;
+
+SELECT * FROM users WHERE birthday='may' OR birthday='august';
+
+-- ЗАДАНИЕ 5 (по желанию) Из таблицы catalogs извлекаются записи при помощи запроса. 
+-- SELECT * FROM catalogs WHERE id IN (5, 1, 2); Отсортируйте записи в порядке, заданном в списке IN.
+
+-- беру для примера таблицу storehouses_products
+
+SELECT * FROM storehouses_products WHERE id IN (5, 1, 2) 
+ORDER BY CASE id 
+	       WHEN 5 THEN 1
+           WHEN 1 THEN 2
+           WHEN 2 THEN 3
+         END;
+
+
+
+
+
+
