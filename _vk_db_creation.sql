@@ -348,14 +348,15 @@ DROP TABLE IF EXISTS storehouses_products;
 CREATE TABLE storehouses_products (
 	id SERIAL, 
     name VARCHAR(50),
-	value BIGINT
+	value BIGINT,
+	price BIGINT
 ) COMMENT 'Складские запасы';
 
-INSERT INTO `storehouses_products` (`id`, `name`, `value`) VALUES ('1', 'bread', '0');
-INSERT INTO `storehouses_products` (`id`, `name`, `value`) VALUES ('2', 'coke', '0');
-INSERT INTO `storehouses_products` (`id`, `name`, `value`) VALUES ('3', 'meat', '1');
-INSERT INTO `storehouses_products` (`id`, `name`, `value`) VALUES ('4', 'ice cream', '3');
-INSERT INTO `storehouses_products` (`id`, `name`, `value`) VALUES ('5', 'milk', '6');
+INSERT INTO `storehouses_products` (`id`, `name`, `value`, `price`) VALUES ('1', 'bread', '0', '25');
+INSERT INTO `storehouses_products` (`id`, `name`, `value`, `price`) VALUES ('2', 'coke', '0', '70');
+INSERT INTO `storehouses_products` (`id`, `name`, `value`, `price`) VALUES ('3', 'meat', '1', '700');
+INSERT INTO `storehouses_products` (`id`, `name`, `value`, `price`) VALUES ('4', 'ice cream', '3', '100');
+INSERT INTO `storehouses_products` (`id`, `name`, `value`, `price`) VALUES ('5', 'milk', '6', '65');
 
 SELECT value FROM storehouses_products ORDER BY value = 0, value;
 
@@ -363,18 +364,18 @@ SELECT value FROM storehouses_products ORDER BY value = 0, value;
 -- Месяцы заданы в виде списка английских названий ('may', 'august')
 ALTER TABLE users ADD COLUMN birthday VARCHAR(50) AFTER updated_at;
 
-UPDATE users SET birthday = 'may' WHERE id = 1;
-UPDATE users SET birthday = 'february' WHERE id = 2;
-UPDATE users SET birthday = 'august' WHERE id = 3;
-UPDATE users SET birthday = 'june' WHERE id = 4;
-UPDATE users SET birthday = 'may' WHERE id = 5;
-UPDATE users SET birthday = 'may' WHERE id = 6;
-UPDATE users SET birthday = 'may' WHERE id = 7;
-UPDATE users SET birthday = 'july' WHERE id = 8;
-UPDATE users SET birthday = 'april' WHERE id = 9;
-UPDATE users SET birthday = 'may' WHERE id = 10;
+UPDATE users SET birthday = CURRENT_DATE - INTERVAL FLOOR(RAND() * 9999) DAY WHERE id = 1;
+UPDATE users SET birthday = CURRENT_DATE - INTERVAL FLOOR(RAND() * 9999) DAY WHERE id = 2;
+UPDATE users SET birthday = CURRENT_DATE - INTERVAL FLOOR(RAND() * 9999) DAY WHERE id = 3;
+UPDATE users SET birthday = CURRENT_DATE - INTERVAL FLOOR(RAND() * 9999) DAY WHERE id = 4;
+UPDATE users SET birthday = CURRENT_DATE - INTERVAL FLOOR(RAND() * 9999) DAY WHERE id = 5;
+UPDATE users SET birthday = CURRENT_DATE - INTERVAL FLOOR(RAND() * 9999) DAY WHERE id = 6;
+UPDATE users SET birthday = CURRENT_DATE - INTERVAL FLOOR(RAND() * 9999) DAY WHERE id = 7;
+UPDATE users SET birthday = CURRENT_DATE - INTERVAL FLOOR(RAND() * 9999) DAY WHERE id = 8;
+UPDATE users SET birthday = CURRENT_DATE - INTERVAL FLOOR(RAND() * 9999) DAY WHERE id = 9;
+UPDATE users SET birthday = CURRENT_DATE - INTERVAL FLOOR(RAND() * 9999) DAY WHERE id = 10;
 
-SELECT * FROM users WHERE birthday='may' OR birthday='august';
+SELECT * FROM users WHERE MONTH(birthday) = 5 OR MONTH(birthday) = 8;
 
 -- ЗАДАНИЕ 5 (по желанию) Из таблицы catalogs извлекаются записи при помощи запроса. 
 -- SELECT * FROM catalogs WHERE id IN (5, 1, 2); Отсортируйте записи в порядке, заданном в списке IN.
@@ -387,6 +388,22 @@ ORDER BY CASE id
            WHEN 1 THEN 2
            WHEN 2 THEN 3
          END;
+
+-- Практическое задание теме “Агрегация данных”
+        
+-- ЗАДАНИЕ 1 Подсчитайте средний возраст пользователей в таблице users
+
+SELECT AVG(price) FROM storehouses_products;
+
+-- ЗАДАНИЕ 2 Подсчитайте количество дней рождения, которые приходятся на каждый из дней недели. 
+-- Следует учесть, что необходимы дни недели текущего года, а не года рождения.
+
+SELECT COUNT(id), birthday FROM users GROUP BY DAY(birthday);
+
+-- ЗАДАНИЕ 3 (по желанию) Подсчитайте произведение чисел в столбце таблицы
+
+SELECT exp(SUM(log(price))) FROM storehouses_products;
+
 
 
 
