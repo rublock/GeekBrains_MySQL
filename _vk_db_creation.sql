@@ -39,11 +39,11 @@ CREATE TABLE `profiles` (
 INSERT INTO `profiles` (`user_id`, `gender`, `birthday`, `photo_id`, `created_at`, `hometown`) VALUES ('1', 'm', '2012-03-18', '1', '2008-09-18 05:55:51', 'Veldaville');
 INSERT INTO `profiles` (`user_id`, `gender`, `birthday`, `photo_id`, `created_at`, `hometown`) VALUES ('2', 'm', '2017-12-25', '2', '2000-04-09 11:27:27', 'North Katrinaburgh');
 INSERT INTO `profiles` (`user_id`, `gender`, `birthday`, `photo_id`, `created_at`, `hometown`) VALUES ('3', 'm', '1993-12-24', '3', '1984-06-13 19:36:13', 'North Bennetttown');
-INSERT INTO `profiles` (`user_id`, `gender`, `birthday`, `photo_id`, `created_at`, `hometown`) VALUES ('4', 'm', '2005-09-30', '4', '1993-05-28 03:47:36', 'Kovacekstad');
+INSERT INTO `profiles` (`user_id`, `gender`, `birthday`, `photo_id`, `created_at`, `hometown`) VALUES ('4', 'm', '2015-09-30', '4', '1993-05-28 03:47:36', 'Kovacekstad');
 INSERT INTO `profiles` (`user_id`, `gender`, `birthday`, `photo_id`, `created_at`, `hometown`) VALUES ('5', 'f', '2003-07-31', '5', '2000-04-09 14:35:52', 'South Kadehaven');
 INSERT INTO `profiles` (`user_id`, `gender`, `birthday`, `photo_id`, `created_at`, `hometown`) VALUES ('6', 'f', '1981-03-04', '6', '1992-11-01 22:02:20', 'Bruenhaven');
 INSERT INTO `profiles` (`user_id`, `gender`, `birthday`, `photo_id`, `created_at`, `hometown`) VALUES ('7', 'm', '1996-08-02', '7', '1973-11-26 23:21:59', 'Hamillfort');
-INSERT INTO `profiles` (`user_id`, `gender`, `birthday`, `photo_id`, `created_at`, `hometown`) VALUES ('8', 'm', '2000-06-22', '8', '1991-08-13 09:44:09', 'West Jeanette');
+INSERT INTO `profiles` (`user_id`, `gender`, `birthday`, `photo_id`, `created_at`, `hometown`) VALUES ('8', 'm', '2013-06-22', '8', '1991-08-13 09:44:09', 'West Jeanette');
 INSERT INTO `profiles` (`user_id`, `gender`, `birthday`, `photo_id`, `created_at`, `hometown`) VALUES ('9', 'f', '2012-04-13', '9', '1983-10-30 06:37:31', 'Abshirestad');
 INSERT INTO `profiles` (`user_id`, `gender`, `birthday`, `photo_id`, `created_at`, `hometown`) VALUES ('10', 'f', '1986-12-09', '10', '2008-03-17 01:23:22', 'West Evaberg');
 
@@ -65,15 +65,15 @@ CREATE TABLE messages (
     FOREIGN KEY (to_user_id) REFERENCES users(id)
 );
 
-INSERT INTO `messages` (`id`, `from_user_id`, `to_user_id`, `body`, `created_at`) VALUES ('1', '1', '1', 'Eos nesciunt earum explicabo dolor porro quia. Dolorum quae dolor dolorem ut. Autem voluptas error corporis perferendis.', '2006-09-30 22:45:01');
-INSERT INTO `messages` (`id`, `from_user_id`, `to_user_id`, `body`, `created_at`) VALUES ('2', '2', '2', 'Voluptate est pariatur asperiores dolore velit omnis. Voluptas dolore ea et. Consequatur non beatae harum tempore. Quis occaecati autem illum laborum nam ipsam ipsum.', '1995-02-07 17:06:55');
+INSERT INTO `messages` (`id`, `from_user_id`, `to_user_id`, `body`, `created_at`) VALUES ('1', '2', '1', 'Eos nesciunt earum explicabo dolor porro quia. Dolorum quae dolor dolorem ut. Autem voluptas error corporis perferendis.', '2006-09-30 22:45:01');
+INSERT INTO `messages` (`id`, `from_user_id`, `to_user_id`, `body`, `created_at`) VALUES ('2', '1', '2', 'Voluptate est pariatur asperiores dolore velit omnis. Voluptas dolore ea et. Consequatur non beatae harum tempore. Quis occaecati autem illum laborum nam ipsam ipsum.', '1995-02-07 17:06:55');
 INSERT INTO `messages` (`id`, `from_user_id`, `to_user_id`, `body`, `created_at`) VALUES ('3', '3', '3', 'Voluptatum voluptas veritatis saepe voluptas veritatis. Tempore sunt doloribus quos omnis accusamus laborum. Eius qui nam accusamus aut vel architecto laboriosam. Eos quis nihil beatae minima culpa tempore excepturi itaque.', '1980-10-30 14:05:30');
-INSERT INTO `messages` (`id`, `from_user_id`, `to_user_id`, `body`, `created_at`) VALUES ('4', '4', '4', 'Distinctio reprehenderit repellat et quo enim placeat. Libero voluptates qui error similique autem autem nihil. Ut maxime quos tempore nam quia doloremque aut nisi.', '1986-01-14 01:49:51');
-INSERT INTO `messages` (`id`, `from_user_id`, `to_user_id`, `body`, `created_at`) VALUES ('5', '5', '5', 'Unde doloremque et architecto dolore similique commodi. Autem beatae vero magnam amet ipsum. Dolorum quibusdam iste ad facilis omnis aut.', '2009-05-17 14:59:59');
-INSERT INTO `messages` (`id`, `from_user_id`, `to_user_id`, `body`, `created_at`) VALUES ('6', '6', '6', 'Illum iure est sint quia soluta. Est autem iusto molestiae voluptas. Aut nostrum est sed ut est facere qui repellat. Ut quia possimus est deleniti ullam. Non est ex minus quam dolore rerum eveniet est.', '2010-07-27 22:02:02');
+INSERT INTO `messages` (`id`, `from_user_id`, `to_user_id`, `body`, `created_at`) VALUES ('4', '4', '2', 'Distinctio reprehenderit repellat et quo enim placeat. Libero voluptates qui error similique autem autem nihil. Ut maxime quos tempore nam quia doloremque aut nisi.', '1986-01-14 01:49:51');
+INSERT INTO `messages` (`id`, `from_user_id`, `to_user_id`, `body`, `created_at`) VALUES ('5', '5', '2', 'Unde doloremque et architecto dolore similique commodi. Autem beatae vero magnam amet ipsum. Dolorum quibusdam iste ad facilis omnis aut.', '2009-05-17 14:59:59');
+INSERT INTO `messages` (`id`, `from_user_id`, `to_user_id`, `body`, `created_at`) VALUES ('6', '1', '2', 'Illum iure est sint quia soluta. Est autem iusto molestiae voluptas. Aut nostrum est sed ut est facere qui repellat. Ut quia possimus est deleniti ullam. Non est ex minus quam dolore rerum eveniet est.', '2010-07-27 22:02:02');
 INSERT INTO `messages` (`id`, `from_user_id`, `to_user_id`, `body`, `created_at`) VALUES ('7', '7', '7', 'Temporibus alias repellendus cum. Iusto et qui sapiente illum eveniet. Non et cum in qui sed. Et quia voluptatem ullam cumque deserunt animi.', '2008-07-24 17:29:06');
 INSERT INTO `messages` (`id`, `from_user_id`, `to_user_id`, `body`, `created_at`) VALUES ('8', '8', '8', 'Omnis omnis quia et labore. Illo esse officia quos sunt. Fugiat magni tenetur omnis alias dolore. Et enim neque harum eum corporis omnis non.', '1994-08-19 13:45:56');
-INSERT INTO `messages` (`id`, `from_user_id`, `to_user_id`, `body`, `created_at`) VALUES ('9', '9', '9', 'Iusto voluptatibus iusto sed aut velit distinctio quis. Qui cumque non magnam et aliquid. Iste qui in quibusdam molestiae provident quis quia.', '1985-11-21 07:42:28');
+INSERT INTO `messages` (`id`, `from_user_id`, `to_user_id`, `body`, `created_at`) VALUES ('9', '1', '2', 'Iusto voluptatibus iusto sed aut velit distinctio quis. Qui cumque non magnam et aliquid. Iste qui in quibusdam molestiae provident quis quia.', '1985-11-21 07:42:28');
 INSERT INTO `messages` (`id`, `from_user_id`, `to_user_id`, `body`, `created_at`) VALUES ('10', '10', '10', 'Dolorem in sed non. Nobis quae ad inventore. Officia dolor ut in quisquam adipisci blanditiis.', '1971-10-22 17:12:55');
 
 DROP TABLE IF EXISTS friend_requests;
@@ -328,82 +328,38 @@ INSERT INTO `wall` (`user_id`, `media_id`) VALUES ('8', '8');
 INSERT INTO `wall` (`user_id`, `media_id`) VALUES ('9', '9');
 INSERT INTO `wall` (`user_id`, `media_id`) VALUES ('10', '10');
 
--- ЗАДАНИЕ 1 Пусть в таблице users поля created_at и updated_at оказались незаполненными. Заполните их текущими датой и временем.
-ALTER TABLE users
-ADD COLUMN created_at VARCHAR(50) AFTER phone,
-ADD COLUMN updated_at VARCHAR(50) AFTER created_at;
+-- ЗАДАНИЕ 1 Пусть задан некоторый пользователь. Из всех пользователей соц. сети найдите человека, который больше всех общался с выбранным пользователем 
+-- (написал ему сообщений).
 
-UPDATE users SET created_at = now();
-UPDATE users SET updated_at = now();
+SELECT
+	from_user_id,
+	COUNT(from_user_id) AS `отправлено сообщений`
+FROM
+	messages
+GROUP BY
+	from_user_id
+HAVING 
+	`отправлено сообщений` > 1;
+	
+-- ЗАДАНИЕ 2 Подсчитать общее количество лайков, которые получили пользователи младше 10 лет.
+	
+SELECT 
+	COUNT(user_id) AS `пользователи младше 10 лет`
+FROM 
+	profiles
+WHERE 
+	birthday > CURRENT_DATE - INTERVAL 10 YEAR;
 
--- ЗАДАНИЕ 2 Таблица users была неудачно спроектирована. Записи created_at и updated_at были заданы типом VARCHAR и в них долгое 
--- время помещались значения в формате "20.10.2017 8:10". Необходимо преобразовать поля к типу DATETIME, сохранив введеные ранее значения.
-ALTER TABLE users MODIFY created_at DATETIME;
-ALTER TABLE users MODIFY updated_at DATETIME;
+-- ЗАДАНИЕ 3 Определить кто больше поставил лайков (всего): мужчины или женщины.
 
--- ЗАДАНИЕ 3 В таблице складских запасов storehouses_products в поле value могут встречаться самые разные цифры: 0, если товар закончился и выше нуля, 
--- если на складе имеются запасы. Необходимо отсортировать записи таким образом, чтобы они выводились в порядке увеличения значения value. Однако, 
--- нулевые запасы должны выводиться в конце, после всех записей.
-DROP TABLE IF EXISTS storehouses_products;
-CREATE TABLE storehouses_products (
-	id SERIAL, 
-    name VARCHAR(50),
-	value BIGINT,
-	price BIGINT
-) COMMENT 'Складские запасы';
+SELECT 
+	COUNT(gender) AS `женсий пол`
+FROM 
+	profiles
+WHERE 
+	gender = 'f';
 
-INSERT INTO `storehouses_products` (`id`, `name`, `value`, `price`) VALUES ('1', 'bread', '0', '25');
-INSERT INTO `storehouses_products` (`id`, `name`, `value`, `price`) VALUES ('2', 'coke', '0', '70');
-INSERT INTO `storehouses_products` (`id`, `name`, `value`, `price`) VALUES ('3', 'meat', '1', '700');
-INSERT INTO `storehouses_products` (`id`, `name`, `value`, `price`) VALUES ('4', 'ice cream', '3', '100');
-INSERT INTO `storehouses_products` (`id`, `name`, `value`, `price`) VALUES ('5', 'milk', '6', '65');
-
-SELECT value FROM storehouses_products ORDER BY value = 0, value;
-
--- ЗАДАНИЕ 4 (по желанию) Из таблицы users необходимо извлечь пользователей, родившихся в августе и мае. 
--- Месяцы заданы в виде списка английских названий ('may', 'august')
-ALTER TABLE users ADD COLUMN birthday VARCHAR(50) AFTER updated_at;
-
-UPDATE users SET birthday = CURRENT_DATE - INTERVAL FLOOR(RAND() * 9999) DAY WHERE id = 1;
-UPDATE users SET birthday = CURRENT_DATE - INTERVAL FLOOR(RAND() * 9999) DAY WHERE id = 2;
-UPDATE users SET birthday = CURRENT_DATE - INTERVAL FLOOR(RAND() * 9999) DAY WHERE id = 3;
-UPDATE users SET birthday = CURRENT_DATE - INTERVAL FLOOR(RAND() * 9999) DAY WHERE id = 4;
-UPDATE users SET birthday = CURRENT_DATE - INTERVAL FLOOR(RAND() * 9999) DAY WHERE id = 5;
-UPDATE users SET birthday = CURRENT_DATE - INTERVAL FLOOR(RAND() * 9999) DAY WHERE id = 6;
-UPDATE users SET birthday = CURRENT_DATE - INTERVAL FLOOR(RAND() * 9999) DAY WHERE id = 7;
-UPDATE users SET birthday = CURRENT_DATE - INTERVAL FLOOR(RAND() * 9999) DAY WHERE id = 8;
-UPDATE users SET birthday = CURRENT_DATE - INTERVAL FLOOR(RAND() * 9999) DAY WHERE id = 9;
-UPDATE users SET birthday = CURRENT_DATE - INTERVAL FLOOR(RAND() * 9999) DAY WHERE id = 10;
-
-SELECT * FROM users WHERE MONTH(birthday) = 5 OR MONTH(birthday) = 8;
-
--- ЗАДАНИЕ 5 (по желанию) Из таблицы catalogs извлекаются записи при помощи запроса. 
--- SELECT * FROM catalogs WHERE id IN (5, 1, 2); Отсортируйте записи в порядке, заданном в списке IN.
-
--- беру для примера таблицу storehouses_products
-
-SELECT * FROM storehouses_products WHERE id IN (5, 1, 2) 
-ORDER BY CASE id 
-	       WHEN 5 THEN 1
-           WHEN 1 THEN 2
-           WHEN 2 THEN 3
-         END;
-
--- Практическое задание теме “Агрегация данных”
-        
--- ЗАДАНИЕ 1 Подсчитайте средний возраст пользователей в таблице users
-
-SELECT AVG(price) FROM storehouses_products;
-
--- ЗАДАНИЕ 2 Подсчитайте количество дней рождения, которые приходятся на каждый из дней недели. 
--- Следует учесть, что необходимы дни недели текущего года, а не года рождения.
-
-SELECT COUNT(id), birthday FROM users GROUP BY DAY(birthday);
-
--- ЗАДАНИЕ 3 (по желанию) Подсчитайте произведение чисел в столбце таблицы
-
-SELECT exp(SUM(log(price))) FROM storehouses_products;
-
+SELECT gender, COUNT(gender) AS `количество` FROM profiles GROUP BY gender;
 
 
 
