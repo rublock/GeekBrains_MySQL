@@ -71,10 +71,10 @@ INSERT INTO `messages` (`id`, `from_user_id`, `to_user_id`, `body`, `created_at`
 INSERT INTO `messages` (`id`, `from_user_id`, `to_user_id`, `body`, `created_at`) VALUES ('4', '4', '2', 'Distinctio reprehenderit repellat et quo enim placeat. Libero voluptates qui error similique autem autem nihil. Ut maxime quos tempore nam quia doloremque aut nisi.', '1986-01-14 01:49:51');
 INSERT INTO `messages` (`id`, `from_user_id`, `to_user_id`, `body`, `created_at`) VALUES ('5', '5', '2', 'Unde doloremque et architecto dolore similique commodi. Autem beatae vero magnam amet ipsum. Dolorum quibusdam iste ad facilis omnis aut.', '2009-05-17 14:59:59');
 INSERT INTO `messages` (`id`, `from_user_id`, `to_user_id`, `body`, `created_at`) VALUES ('6', '1', '2', 'Illum iure est sint quia soluta. Est autem iusto molestiae voluptas. Aut nostrum est sed ut est facere qui repellat. Ut quia possimus est deleniti ullam. Non est ex minus quam dolore rerum eveniet est.', '2010-07-27 22:02:02');
-INSERT INTO `messages` (`id`, `from_user_id`, `to_user_id`, `body`, `created_at`) VALUES ('7', '7', '7', 'Temporibus alias repellendus cum. Iusto et qui sapiente illum eveniet. Non et cum in qui sed. Et quia voluptatem ullam cumque deserunt animi.', '2008-07-24 17:29:06');
-INSERT INTO `messages` (`id`, `from_user_id`, `to_user_id`, `body`, `created_at`) VALUES ('8', '8', '8', 'Omnis omnis quia et labore. Illo esse officia quos sunt. Fugiat magni tenetur omnis alias dolore. Et enim neque harum eum corporis omnis non.', '1994-08-19 13:45:56');
+INSERT INTO `messages` (`id`, `from_user_id`, `to_user_id`, `body`, `created_at`) VALUES ('7', '2', '7', 'Temporibus alias repellendus cum. Iusto et qui sapiente illum eveniet. Non et cum in qui sed. Et quia voluptatem ullam cumque deserunt animi.', '2008-07-24 17:29:06');
+INSERT INTO `messages` (`id`, `from_user_id`, `to_user_id`, `body`, `created_at`) VALUES ('8', '3', '8', 'Omnis omnis quia et labore. Illo esse officia quos sunt. Fugiat magni tenetur omnis alias dolore. Et enim neque harum eum corporis omnis non.', '1994-08-19 13:45:56');
 INSERT INTO `messages` (`id`, `from_user_id`, `to_user_id`, `body`, `created_at`) VALUES ('9', '1', '2', 'Iusto voluptatibus iusto sed aut velit distinctio quis. Qui cumque non magnam et aliquid. Iste qui in quibusdam molestiae provident quis quia.', '1985-11-21 07:42:28');
-INSERT INTO `messages` (`id`, `from_user_id`, `to_user_id`, `body`, `created_at`) VALUES ('10', '10', '10', 'Dolorem in sed non. Nobis quae ad inventore. Officia dolor ut in quisquam adipisci blanditiis.', '1971-10-22 17:12:55');
+INSERT INTO `messages` (`id`, `from_user_id`, `to_user_id`, `body`, `created_at`) VALUES ('10', '3', '10', 'Dolorem in sed non. Nobis quae ad inventore. Officia dolor ut in quisquam adipisci blanditiis.', '1971-10-22 17:12:55');
 
 DROP TABLE IF EXISTS friend_requests;
 CREATE TABLE friend_requests (
@@ -214,12 +214,12 @@ INSERT INTO `likes` (`id`, `user_id`, `media_id`, `created_at`) VALUES ('1', '1'
 INSERT INTO `likes` (`id`, `user_id`, `media_id`, `created_at`) VALUES ('2', '2', '2', '2011-06-12 19:34:42');
 INSERT INTO `likes` (`id`, `user_id`, `media_id`, `created_at`) VALUES ('3', '3', '3', '1998-09-13 16:40:38');
 INSERT INTO `likes` (`id`, `user_id`, `media_id`, `created_at`) VALUES ('4', '4', '4', '2010-02-26 06:13:09');
-INSERT INTO `likes` (`id`, `user_id`, `media_id`, `created_at`) VALUES ('5', '5', '5', '1998-12-16 03:30:36');
-INSERT INTO `likes` (`id`, `user_id`, `media_id`, `created_at`) VALUES ('6', '6', '6', '1982-06-15 20:46:27');
-INSERT INTO `likes` (`id`, `user_id`, `media_id`, `created_at`) VALUES ('7', '7', '7', '1992-04-09 10:40:05');
+INSERT INTO `likes` (`id`, `user_id`, `media_id`, `created_at`) VALUES ('5', '4', '5', '1998-12-16 03:30:36');
+INSERT INTO `likes` (`id`, `user_id`, `media_id`, `created_at`) VALUES ('6', '1', '6', '1982-06-15 20:46:27');
+INSERT INTO `likes` (`id`, `user_id`, `media_id`, `created_at`) VALUES ('7', '1', '7', '1992-04-09 10:40:05');
 INSERT INTO `likes` (`id`, `user_id`, `media_id`, `created_at`) VALUES ('8', '8', '8', '1978-10-14 14:23:28');
-INSERT INTO `likes` (`id`, `user_id`, `media_id`, `created_at`) VALUES ('9', '9', '9', '2008-01-30 17:24:49');
-INSERT INTO `likes` (`id`, `user_id`, `media_id`, `created_at`) VALUES ('10', '10', '10', '2014-07-18 20:12:36');
+INSERT INTO `likes` (`id`, `user_id`, `media_id`, `created_at`) VALUES ('9', '4', '9', '2008-01-30 17:24:49');
+INSERT INTO `likes` (`id`, `user_id`, `media_id`, `created_at`) VALUES ('10', '4', '10', '2014-07-18 20:12:36');
 
 
 DROP TABLE IF EXISTS `photo_albums`;
@@ -328,38 +328,45 @@ INSERT INTO `wall` (`user_id`, `media_id`) VALUES ('8', '8');
 INSERT INTO `wall` (`user_id`, `media_id`) VALUES ('9', '9');
 INSERT INTO `wall` (`user_id`, `media_id`) VALUES ('10', '10');
 
--- ЗАДАНИЕ 1 Пусть задан некоторый пользователь. Из всех пользователей соц. сети найдите человека, который больше всех общался с выбранным пользователем 
--- (написал ему сообщений).
+-- Задачи с использованием объединения таблиц (JOIN)
 
-SELECT
-	from_user_id,
-	COUNT(from_user_id) AS `отправлено сообщений`
-FROM
-	messages
-GROUP BY
-	from_user_id
-HAVING 
-	`отправлено сообщений` > 1;
+-- ЗАДАНИЕ 1 Пусть задан пользователь c lastname Kunze. Из всех пользователей соц. сети найдите человека, 
+-- который больше всех общался с выбранным пользователем (написал ему сообщений).
+
+SELECT 
+	u.lastname 'получатель', m.from_user_id 'отправитель'
+FROM 
+	messages m
+JOIN 
+	users u
+ON 
+	u.id = m.to_user_id
+WHERE 
+	u.lastname = 'Kunze'
+ORDER BY 
+	m.from_user_id;
 	
 -- ЗАДАНИЕ 2 Подсчитать общее количество лайков, которые получили пользователи младше 10 лет.
-	
-SELECT 
-	COUNT(user_id) AS `пользователи младше 10 лет`
-FROM 
-	profiles
-WHERE 
-	birthday > CURRENT_DATE - INTERVAL 10 YEAR;
+
+SELECT
+	u.lastname 'пользователи младше 10 лет'
+FROM
+	users u
+JOIN
+	profiles p ON u.id = p.user_id
+WHERE
+	p.birthday > CURRENT_DATE - INTERVAL 10 YEAR;
 
 -- ЗАДАНИЕ 3 Определить кто больше поставил лайков (всего): мужчины или женщины.
 
-SELECT 
-	COUNT(gender) AS `женсий пол`
-FROM 
-	profiles
-WHERE 
-	gender = 'f';
-
-SELECT gender, COUNT(gender) AS `количество` FROM profiles GROUP BY gender;
+SELECT
+	p.gender 'пол', l.user_id 'пользователь поставивший лайк'
+FROM
+	profiles p
+JOIN
+	likes l ON l.id = p.user_id
+ORDER BY 
+	p.gender;
 
 
 
