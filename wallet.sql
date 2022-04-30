@@ -5,13 +5,21 @@
 -- Также база данных хранит историю транзакций, последние логины, варинаты двухфакторной авторизации для пользователя.
 -- В базе данных будут реализованы триггеры, например блок регистрации несовершеннолетнего пользователя.
 
--- TODO 
+-- TODO транзакции перевода денежных средств
+-- TODO триггер для автозаполнение user_activity
+-- TODO выборка данных из user_activity
+-- TODO проверка оптимизации выборки user_activity (explain)
+-- TODO выборки, транзакции и прочее в отдельных скрипт чтобы не мешало проектировать БД, надо ли?))
 
-DROP TABLE IF EXISTS `user_wallet`;
-DROP TABLE IF EXISTS `exchange_rates`;
-DROP TABLE IF EXISTS `users`;
-DROP TABLE IF EXISTS `currencies`;
-DROP TABLE IF EXISTS `transactions_types`;
+DROP DATABASE IF EXISTS `wallet`;
+CREATE DATABASE IF NOT EXISTS `wallet`;
+USE `wallet`;
+
+DROP TABLE IF EXISTS `user_wallet`,
+					 `exchange_rates`,
+					 `users`,
+ 					 `currencies`,
+					 `transactions_types`;
 
 CREATE TABLE `users` (
 	`id` SERIAL PRIMARY KEY,
@@ -34,8 +42,6 @@ INSERT INTO `users` (`name`, `email`, `password_hash`, `created_at`, `updated_at
 INSERT INTO `users` (`name`, `email`, `password_hash`, `created_at`, `updated_at`) VALUES ('Prof. Grady Ledner', 'juana.pollich@example.com', '88b7d378c287b1092adf0027b4dc2a0a28fa4a2d', '1978-06-27 16:39:42', '2013-12-25 19:26:25');
 INSERT INTO `users` (`name`, `email`, `password_hash`, `created_at`, `updated_at`) VALUES ('Tevin Hilpert', 'huels.andreane@example.org', 'f06ef7af0c3a52f11173654112eb1f99fbd8f5f6', '1985-06-19 10:09:10', '1977-06-10 06:29:13');
 
-SELECT * FROM users;
-
 CREATE TABLE `currencies` (
 	`id` SERIAL PRIMARY KEY,
 	`name` VARCHAR(50) UNIQUE,
@@ -53,7 +59,7 @@ CREATE TABLE `exchange_rates` (
 	`currency_id` BIGINT UNSIGNED NOT NULL,
 	`exchange_currency` VARCHAR(50),
 	`exchange_rate` DECIMAL(9,2) NOT NULL DEFAULT 0,
-	FOREIGN KEY (currency_id) REFERENCES currencies(id)
+	FOREIGN KEY (`currency_id`) REFERENCES `currencies`(`id`)
 	) COMMENT = 'курсы криптовалют';
 
 INSERT INTO `exchange_rates` (`currency_id`, `exchange_currency`, `exchange_rate`) VALUES ('1', 'USD', '37527.88');
@@ -63,22 +69,22 @@ INSERT INTO `exchange_rates` (`currency_id`, `exchange_currency`, `exchange_rate
 INSERT INTO `exchange_rates` (`currency_id`, `exchange_currency`, `exchange_rate`) VALUES ('5', 'USD', '0.16');
 
 -- Выборка кусов валют с названиями по алфавиту
-
-SELECT
-	c.name 'Криптовалюта',
-	e.exchange_rate 'Курс',
-	e.exchange_currency 'Валюта обмена'
-FROM
-	currencies c
-JOIN exchange_rates e ON
-	c.id = e.currency_id
-ORDER BY
-	c.name;
-
+-- 
+-- SELECT
+-- 	c.name 'Криптовалюта',
+-- 	e.exchange_rate 'Курс',
+-- 	e.exchange_currency 'Валюта обмена'
+-- FROM
+-- 	currencies c
+-- JOIN exchange_rates e ON
+-- 	c.id = e.currency_id
+-- ORDER BY
+-- 	c.name;
+-- 
 CREATE TABLE `transactions_types` (
 	`id` SERIAL PRIMARY KEY,
-	`type` VARCHAR(50)
-	) COMMENT = 'типы транзакций';
+ 	`type` VARCHAR(50)
+ 	) COMMENT = 'типы транзакций';
 
 INSERT INTO `transactions_types` (`type`) VALUES ('Receive');
 INSERT INTO `transactions_types` (`type`) VALUES ('Send');
@@ -90,17 +96,18 @@ CREATE TABLE `user_wallet` (
 	`user_id` BIGINT UNSIGNED NOT NULL,
 	`currency_id` BIGINT UNSIGNED NOT NULL,
 	`balance` FLOAT(99,8) NOT NULL DEFAULT 0,
-	FOREIGN KEY (user_id) REFERENCES users(id),
-	FOREIGN KEY (currency_id) REFERENCES currencies(id)
+	FOREIGN KEY (`user_id`) REFERENCES `users`(`id`),
+	FOREIGN KEY (`currency_id`) REFERENCES `currencies`(`id`)
 	) COMMENT = 'кошелек пользователя';
 
 INSERT INTO `user_wallet` (`user_id`, `currency_id`, `balance`) VALUES ('1', '1', '0.00348790');
-INSERT INTO `user_wallet` (`user_id`, `currency_id`, `balance`) VALUES ('2', '4', '1000');
+INSERT INTO `user_wallet` (`user_id`, `currency_id`, `balance`) VALUES ('2', '4', '0.95423713');
+INSERT INTO `user_wallet` (`user_id`, `currency_id`, `balance`) VALUES ('2', '1', '1000');
 INSERT INTO `user_wallet` (`user_id`, `currency_id`, `balance`) VALUES ('3', '2', '11.56344567');
 INSERT INTO `user_wallet` (`user_id`, `currency_id`, `balance`) VALUES ('4', '4', '0');
 INSERT INTO `user_wallet` (`user_id`, `currency_id`, `balance`) VALUES ('5', '3', '53.85638204');
 
--- Выборка баланса пользователя по курсу в USD, по убыванию
+-- Выборка баланса пользователя по курсу в USD, сортировка по пользователю
 
 SELECT
 	u.name 'Пользователь',
@@ -116,4 +123,23 @@ JOIN exchange_rates er ON
 JOIN currencies с ON
 	с.id = uw.currency_id
 ORDER BY
-	uw.balance * er.exchange_rate DESC;
+	u.name DESC;
+	
+DROP TABLE IF EXISTS user_activity;
+CREATE TABLE user_activity (
+	id SERIAL,
+	transaction_time DATETIME NOT NULL,
+	from_user_id BIGINT UNSIGNED NOT NULL,
+	transaction_type_id BIGINT UNSIGNED NOT NULL,
+	ammount FLOAT(99,8) NOT NULL DEFAULT 0,
+	short_name_id BIGINT UNSIGNED NOT NULL,
+	to_user_id BIGINT UNSIGNED NOT NULL
+	) COMMENT = 'Транзакции пользователей';
+
+INSERT INTO `user_activity` (`transaction_time`, `from_user_id`, `transaction_type_id`, `ammount`, `short_name_id`, `to_user_id`)
+VALUES (NOW(), '1', '2', '0.00004021', '1', '2')
+	
+	
+	
+	
+	
