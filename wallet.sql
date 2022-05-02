@@ -1,15 +1,13 @@
 -- ОПИСАНИЕ ПРОЕКТА.
 
 -- Текущая база данных предназначена для использования в криптовалютных кошельках на базе вэб-интерфейса (сайта), за основу взят проект ru.cryptonator.com
--- Базой данных решаются задачи по хранению учетных данных пользователей, адресов их кошельков, используемых криптовалют и транзакций.
+-- Базой данных решаются задачи по хранению учетных данных пользователей, адресов их кошельков, используемых криптовалют.
 -- Также база данных хранит историю транзакций, последние логины, варинаты двухфакторной авторизации для пользователя.
 -- В базе данных будут реализованы триггеры, например блок регистрации несовершеннолетнего пользователя.
 
--- TODO транзакции перевода денежных средств
--- TODO триггер для автозаполнение user_activity
 -- TODO выборка данных из user_activity
 -- TODO проверка оптимизации выборки user_activity (explain)
--- TODO выборки, транзакции и прочее в отдельных скрипт чтобы не мешало проектировать БД, надо ли?))
+-- TODO выборки, транзакции и прочее в отдельных скрипт
 
 DROP DATABASE IF EXISTS `wallet`;
 CREATE DATABASE IF NOT EXISTS `wallet`;
@@ -67,20 +65,7 @@ INSERT INTO `exchange_rates` (`currency_id`, `exchange_currency`, `exchange_rate
 INSERT INTO `exchange_rates` (`currency_id`, `exchange_currency`, `exchange_rate`) VALUES ('3', 'USD', '104.18');
 INSERT INTO `exchange_rates` (`currency_id`, `exchange_currency`, `exchange_rate`) VALUES ('4', 'USD', '1');
 INSERT INTO `exchange_rates` (`currency_id`, `exchange_currency`, `exchange_rate`) VALUES ('5', 'USD', '0.16');
-
--- Выборка кусов валют с названиями по алфавиту
--- 
--- SELECT
--- 	c.name 'Криптовалюта',
--- 	e.exchange_rate 'Курс',
--- 	e.exchange_currency 'Валюта обмена'
--- FROM
--- 	currencies c
--- JOIN exchange_rates e ON
--- 	c.id = e.currency_id
--- ORDER BY
--- 	c.name;
--- 
+ 
 CREATE TABLE `transactions_types` (
 	`id` SERIAL PRIMARY KEY,
  	`type` VARCHAR(50)
@@ -95,7 +80,7 @@ CREATE TABLE `user_wallet` (
 	`id` SERIAL PRIMARY KEY,
 	`user_id` BIGINT UNSIGNED NOT NULL,
 	`currency_id` BIGINT UNSIGNED NOT NULL,
-	`balance` FLOAT(99,8) NOT NULL DEFAULT 0,
+	`balance` DOUBLE(65,8) NOT NULL DEFAULT 0,
 	FOREIGN KEY (`user_id`) REFERENCES `users`(`id`),
 	FOREIGN KEY (`currency_id`) REFERENCES `currencies`(`id`)
 	) COMMENT = 'кошелек пользователя';
@@ -106,40 +91,27 @@ INSERT INTO `user_wallet` (`user_id`, `currency_id`, `balance`) VALUES ('2', '1'
 INSERT INTO `user_wallet` (`user_id`, `currency_id`, `balance`) VALUES ('3', '2', '11.56344567');
 INSERT INTO `user_wallet` (`user_id`, `currency_id`, `balance`) VALUES ('4', '4', '0');
 INSERT INTO `user_wallet` (`user_id`, `currency_id`, `balance`) VALUES ('5', '3', '53.85638204');
-
--- Выборка баланса пользователя по курсу в USD, сортировка по пользователю
-
-SELECT
-	u.name 'Пользователь',
-	с.short_name 'Криптовалюта',
-	FORMAT(uw.balance, 8) 'Баланс в криптовалюте',
-	FORMAT(uw.balance * er.exchange_rate, 2) 'Баланс USD'
-FROM
-	users u
-JOIN user_wallet uw ON
-	u.id = uw.user_id
-JOIN exchange_rates er ON
-	er.currency_id = uw.currency_id
-JOIN currencies с ON
-	с.id = uw.currency_id
-ORDER BY
-	u.name DESC;
 	
 DROP TABLE IF EXISTS user_activity;
 CREATE TABLE user_activity (
-	id SERIAL,
+	id SERIAL PRIMARY KEY,
+	user_id BIGINT UNSIGNED NOT NULL,
 	transaction_time DATETIME NOT NULL,
-	from_user_id BIGINT UNSIGNED NOT NULL,
 	transaction_type_id BIGINT UNSIGNED NOT NULL,
-	ammount FLOAT(99,8) NOT NULL DEFAULT 0,
+	ammount DOUBLE(65,8) NOT NULL DEFAULT 0,
 	short_name_id BIGINT UNSIGNED NOT NULL,
-	to_user_id BIGINT UNSIGNED NOT NULL
+	FOREIGN KEY (`user_id`) REFERENCES `users`(`id`),
+	FOREIGN KEY (`transaction_type_id`) REFERENCES `transactions_types`(`id`),
+	FOREIGN KEY (`short_name_id`) REFERENCES `currencies`(`id`)
 	) COMMENT = 'Транзакции пользователей';
 
-INSERT INTO `user_activity` (`transaction_time`, `from_user_id`, `transaction_type_id`, `ammount`, `short_name_id`, `to_user_id`)
-VALUES (NOW(), '1', '2', '0.00004021', '1', '2')
+INSERT INTO `user_activity` (`user_id`, `transaction_time`, `transaction_type_id`, `ammount`, `short_name_id`) VALUES ('1', '2022-05-02 10:50:23', '2', '3.02252035', '1');
+INSERT INTO `user_activity` (`user_id`, `transaction_time`, `transaction_type_id`, `ammount`, `short_name_id`) VALUES ('1', '2022-05-02 10:51:39', '3', '0.00004021', '1');
+INSERT INTO `user_activity` (`user_id`, `transaction_time`, `transaction_type_id`, `ammount`, `short_name_id`) VALUES ('1', '2022-02-01 11:44:01', '1', '1.90512135', '1');
+INSERT INTO `user_activity` (`user_id`, `transaction_time`, `transaction_type_id`, `ammount`, `short_name_id`) VALUES ('9', '2022-01-17 15:55:33', '1', '100.15320001', '5');
+INSERT INTO `user_activity` (`user_id`, `transaction_time`, `transaction_type_id`, `ammount`, `short_name_id`) VALUES ('1', '2022-01-14 02:07:44', '1', '0.00256398', '2');
 	
-	
+
 	
 	
 	
