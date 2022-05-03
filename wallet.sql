@@ -17,7 +17,11 @@ DROP TABLE IF EXISTS `user_wallet`,
 					 `exchange_rates`,
 					 `users`,
  					 `currencies`,
-					 `transactions_types`;
+					 `transactions_types`,
+					 `user_activity`,
+					 `user_recent_logins`,
+					 `user_security`,
+					 `user_devices`;
 
 CREATE TABLE `users` (
 	`id` SERIAL PRIMARY KEY,
@@ -26,7 +30,7 @@ CREATE TABLE `users` (
 	`password_hash` VARCHAR(100),
 	`created_at` DATETIME DEFAULT CURRENT_TIMESTAMP,
 	`updated_at` DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-	INDEX (name, email)
+	INDEX (`name`, `email`)
 	) COMMENT = 'пользователи';
 	
 INSERT INTO `users` (`name`, `email`, `password_hash`, `created_at`, `updated_at`) VALUES ('Mr. Milan Buckridge II', 'sipes.nina@example.org', '1147ac0742c5d46af0e618af39706bf18054e19f', '2017-12-02 20:12:32', '2013-02-22 04:16:38');
@@ -91,15 +95,14 @@ INSERT INTO `user_wallet` (`user_id`, `currency_id`, `balance`) VALUES ('2', '1'
 INSERT INTO `user_wallet` (`user_id`, `currency_id`, `balance`) VALUES ('3', '2', '11.56344567');
 INSERT INTO `user_wallet` (`user_id`, `currency_id`, `balance`) VALUES ('4', '4', '0');
 INSERT INTO `user_wallet` (`user_id`, `currency_id`, `balance`) VALUES ('5', '3', '53.85638204');
-	
-DROP TABLE IF EXISTS user_activity;
-CREATE TABLE user_activity (
-	id SERIAL PRIMARY KEY,
-	user_id BIGINT UNSIGNED NOT NULL,
-	transaction_time DATETIME NOT NULL,
-	transaction_type_id BIGINT UNSIGNED NOT NULL,
-	ammount DOUBLE(65,8) NOT NULL DEFAULT 0,
-	short_name_id BIGINT UNSIGNED NOT NULL,
+
+CREATE TABLE `user_activity` (
+	`id` SERIAL PRIMARY KEY,
+	`user_id` BIGINT UNSIGNED NOT NULL,
+	`transaction_time` DATETIME NOT NULL,
+	`transaction_type_id` BIGINT UNSIGNED NOT NULL,
+	`ammount` DOUBLE(65,8) NOT NULL DEFAULT 0,
+	`short_name_id` BIGINT UNSIGNED NOT NULL,
 	FOREIGN KEY (`user_id`) REFERENCES `users`(`id`),
 	FOREIGN KEY (`transaction_type_id`) REFERENCES `transactions_types`(`id`),
 	FOREIGN KEY (`short_name_id`) REFERENCES `currencies`(`id`)
@@ -110,7 +113,52 @@ INSERT INTO `user_activity` (`user_id`, `transaction_time`, `transaction_type_id
 INSERT INTO `user_activity` (`user_id`, `transaction_time`, `transaction_type_id`, `ammount`, `short_name_id`) VALUES ('1', '2022-02-01 11:44:01', '1', '1.90512135', '1');
 INSERT INTO `user_activity` (`user_id`, `transaction_time`, `transaction_type_id`, `ammount`, `short_name_id`) VALUES ('9', '2022-01-17 15:55:33', '1', '100.15320001', '5');
 INSERT INTO `user_activity` (`user_id`, `transaction_time`, `transaction_type_id`, `ammount`, `short_name_id`) VALUES ('1', '2022-01-14 02:07:44', '1', '0.00256398', '2');
-	
+
+CREATE TABLE `user_recent_logins` (
+	`id` SERIAL PRIMARY KEY,
+	`user_id` BIGINT UNSIGNED NOT NULL,
+ 	`date` DATETIME NOT NULL,
+ 	`device` VARCHAR(100),
+ 	`ip_address` VARCHAR(20),
+ 	`city` VARCHAR(100),
+ 	FOREIGN KEY (`user_id`) REFERENCES `users`(`id`),
+ 	INDEX(`ip_address`)
+ 	) COMMENT = 'История входов';
+ 
+INSERT INTO `user_recent_logins` (`date`, `user_id`, `device`, `ip_address`, `city`) VALUES ('2022-05-02 10:50:23', '1', 'Windows 10', '192.168.0.1', 'Moscow');
+INSERT INTO `user_recent_logins` (`date`, `user_id`, `device`, `ip_address`, `city`) VALUES ('2022-05-02 10:51:39', '6', 'android 8.1', '192.168.13.100', 'Moscow');
+INSERT INTO `user_recent_logins` (`date`, `user_id`, `device`, `ip_address`, `city`) VALUES ('2022-02-01 11:44:01', '4', 'Windows 7', '10.38.0.55', 'Baku');
+INSERT INTO `user_recent_logins` (`date`, `user_id`, `device`, `ip_address`, `city`) VALUES ('2022-01-17 15:55:33', '2', 'Linux', '192.168.0.55', 'Moscow');
+INSERT INTO `user_recent_logins` (`date`, `user_id`, `device`, `ip_address`, `city`) VALUES ('2022-01-14 02:07:44', '7', 'Windows 10', '11.155.255.0', 'Beirut');
+
+CREATE TABLE `user_security` (
+	`id` SERIAL PRIMARY KEY,
+	`user_id` BIGINT UNSIGNED NOT NULL,
+ 	`type` VARCHAR(100),
+ 	`status` BOOLEAN,
+ 	FOREIGN KEY (`user_id`) REFERENCES `users`(`id`)
+ 	) COMMENT = 'Безопасность';
+ 
+INSERT INTO `user_security` (`user_id`, `type`, `status`) VALUES ('1', 'Goole 2FA', TRUE);
+INSERT INTO `user_security` (`user_id`, `type`, `status`) VALUES ('1', 'e-mail', TRUE);
+INSERT INTO `user_security` (`user_id`, `type`, `status`) VALUES ('6', 'sms', FALSE);
+INSERT INTO `user_security` (`user_id`, `type`, `status`) VALUES ('8', 'Goole 2FA', FALSE);
+INSERT INTO `user_security` (`user_id`, `type`, `status`) VALUES ('1', 'sms', FALSE);
+
+CREATE TABLE `user_notifications` (
+	`id` SERIAL PRIMARY KEY,
+	`user_id` BIGINT UNSIGNED NOT NULL,
+ 	`email` BOOLEAN,
+ 	`sms` BOOLEAN,
+ 	`telegram` BOOLEAN,
+ 	FOREIGN KEY (`user_id`) REFERENCES `users`(`id`)
+ 	) COMMENT = 'Оповещения';
+ 
+INSERT INTO `user_notifications` (`user_id`, `email`, `sms`, `telegram`) VALUES ('1', TRUE, FALSE, TRUE);
+INSERT INTO `user_notifications` (`user_id`, `email`, `sms`, `telegram`) VALUES ('2', TRUE, FALSE, TRUE);
+INSERT INTO `user_notifications` (`user_id`, `email`, `sms`, `telegram`) VALUES ('3', FALSE, FALSE, TRUE);
+INSERT INTO `user_notifications` (`user_id`, `email`, `sms`, `telegram`) VALUES ('4', TRUE, FALSE, TRUE);
+INSERT INTO `user_notifications` (`user_id`, `email`, `sms`, `telegram`) VALUES ('5', FALSE, FALSE, TRUE);
 
 	
 	
